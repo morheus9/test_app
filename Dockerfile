@@ -12,7 +12,7 @@ VOLUME . /usr/src/app
 # add volume
 EXPOSE 4200 4201
 # start app
-CMD ["npm", "start"]
+CMD ["node", "app.js"]
 
 # copy the local package *.json files to the /app in the container
 #
