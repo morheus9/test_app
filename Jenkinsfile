@@ -24,13 +24,13 @@ pipeline {
         stage('images for master') {
             steps {
                 echo '===================== building images for master ====================='
-                sh "docker build -t morheus/testapp:master_${VERSION} ."
-                sh "docker push morheus/testapp:master_${VERSION}"
+                sh "docker build -t morheus/testapp:master_${env.BUILD_ID} ."
+                sh "docker push morheus/testapp:master_${env.BUILD_ID}"
                 echo '===================== running images for master ====================='
                 sh 'export PORT=4200'
-                sh "docker pull morheus/testapp:master_${VERSION}"
+                sh "docker pull morheus/testapp:master_${env.BUILD_ID}"
                 sh 'docker container rm -f master_latest || true'
-                sh "docker run -d -p 4200:4200 --name master_latest morheus/testapp:master_${VERSION}"
+                sh "docker run -d -p 4200:4200 --name master_latest morheus/testapp:master_${env.BUILD_ID}"
             }
         }
 
