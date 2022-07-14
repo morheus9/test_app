@@ -11,7 +11,7 @@ COPY . .
 # add volume
 
 # start app
-CMD ["npm", "run"]
+CMD ["node", "app.js"]
 
 # copy the local package *.json files to the /app in the container
 #
