@@ -13,7 +13,5 @@ EXPOSE 4200 4201
 # start app
 CMD ["npm", "start"]
 
-
-
 # copy the local package *.json files to the /app in the container
 # COPY package.json ./
