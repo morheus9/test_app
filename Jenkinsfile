@@ -15,7 +15,7 @@ pipeline {
     }
 
     stages {
-        stage('create docker login') {
+        stage('docker login') {
             steps {
                 echo '===================== docker login ====================='
                 withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
@@ -24,7 +24,7 @@ pipeline {
             }
         }
 
-        stage('creates and runs docker images for master') {
+        stage('images for master') {
             when {
                 branch 'master'
             }
@@ -41,7 +41,7 @@ pipeline {
             }
         }
 
-        stage('creates and runs docker images for deployment') {
+        stage('images for deployment') {
             when {
                 branch 'development'
             }
@@ -55,6 +55,19 @@ pipeline {
                 sh "docker pull ${IMAGE_REPO}/${NAME}:deployment_${VERSION}"
                 sh 'docker container rm -f deployment_latest || true'
                 sh "docker run -d -p 4201:4201 --name deployment_latest ${IMAGE_REPO}/${NAME}:deployment_${VERSION}"
+            }
+        }
+
+        stage('nginx') {
+            steps {
+                echo '===================== building images for nginx ====================='
+                sh "docker build -t ${NAME} ./nginx"
+                sh "docker tag ${IMAGE_REPO}/${NAME}:nginx_latest"
+                sh "docker push ${IMAGE_REPO}/${NAME}:nginx_latest"
+                echo '===================== running image of nginx ====================='
+                sh "docker pull ${IMAGE_REPO}/${NAME}:nginx_latest"
+                sh 'docker container rm -f nginx_latest || true'
+                sh "docker run -d -p 80:80 --name nginx_latest ${IMAGE_REPO}/${NAME}:nginx_latest"
             }
         }
     }
