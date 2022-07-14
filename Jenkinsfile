@@ -24,8 +24,7 @@ pipeline {
         stage('images for master') {
             steps {
                 echo '===================== building images for master ====================='
-                sh 'docker build -t morheus .'
-                sh "docker tag morheus:latest morheus/testapp:master_${VERSION}"
+                sh "docker build -t morheus/testapp:master_${VERSION} ."
                 sh "docker push morheus/testapp:master_${VERSION}"
                 echo '===================== running images for master ====================='
                 sh 'export PORT=4200'
