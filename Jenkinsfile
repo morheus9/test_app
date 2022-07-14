@@ -24,7 +24,7 @@ pipeline {
         stage('images for master') {
             steps {
                 echo '===================== building images for master ====================='
-                sh 'docker build -t testapp .'
+                sh 'docker build -t morheus .'
                 sh "docker tag morheus/testapp:master_${VERSION}"
                 sh "docker push morheus/testapp:master_${VERSION}"
                 echo '===================== running images for master ====================='
@@ -41,7 +41,7 @@ pipeline {
             }
             steps {
                 echo '===================== building images for development ====================='
-                sh 'docker build -t testapp .'
+                sh 'docker build -t morheus .'
                 sh "docker tag morheus/testapp:deployment_${VERSION}"
                 sh "docker push morheus/testapp:deployment_${VERSION}"
                 echo '===================== running images for development ====================='
@@ -54,7 +54,7 @@ pipeline {
         stage('nginx') {
             steps {
                 echo '===================== building images for nginx ====================='
-                sh 'docker build -t testapp ./nginx'
+                sh 'docker build -t morheus ./nginx'
                 sh 'docker tag morheus/testapp:nginx_latest'
                 sh 'docker push morheus/testapp:nginx_latest'
                 echo '===================== running image of nginx ====================='
