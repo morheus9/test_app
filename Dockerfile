@@ -11,7 +11,7 @@ COPY . .
 # add volume
 EXPOSE 4200
 # start app
-CMD ["node", "app.js"]
+ENTRYPOINT ["node", "app.js"]
 
 # copy the local package *.json files to the /app in the container
 #
