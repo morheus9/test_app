@@ -6,7 +6,7 @@
 # Steps :
 ```
   git clone https://github.com/morheus9/test_app
-  cd node-express-hello-world
+  cd test_app
   npm install
   npm start
 
