@@ -30,7 +30,7 @@ pipeline {
 
                 sh "docker pull morheus/testapp:master_${VERSION}"
                 sh 'docker container rm -f master_latest || true'
-                sh "docker run -d -p 4200:4200 --name master_latest morheus/testapp:master_${VERSION}"
+                sh "docker run -d -p 3000:3000 --name master_latest morheus/testapp:master_${VERSION}"
             }
         }
 
