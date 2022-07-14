@@ -27,7 +27,7 @@ pipeline {
                 sh "docker build -t morheus/testapp:master_${VERSION} ."
                 sh "docker push morheus/testapp:master_${VERSION}"
                 echo '===================== running images for master ====================='
-                sh 'export PORT=4200'
+
                 sh "docker pull morheus/testapp:master_${VERSION}"
                 sh 'docker container rm -f master_latest || true'
                 sh 'docker run -d -p 4200:4200 --entrypoint 'PORT = 4200', 'node', 'app.js" --name master_latest morheus/testapp:master_${VERSION}"
