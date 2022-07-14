@@ -42,7 +42,7 @@ pipeline {
             steps {
                 echo '===================== building images for development ====================='
                 sh 'docker build -t morheus .'
-                sh "docker tag morheus/testapp:deployment_${VERSION}"
+                sh "docker tag morheus:latest morheus/testapp:deployment_${VERSION}"
                 sh "docker push morheus/testapp:deployment_${VERSION}"
                 echo '===================== running images for development ====================='
                 sh '$export PORT=4201'
@@ -55,7 +55,7 @@ pipeline {
             steps {
                 echo '===================== building images for nginx ====================='
                 sh 'docker build -t morheus ./nginx'
-                sh 'docker tag morheus/testapp:nginx_latest'
+                sh 'docker tag morheus:latest morheus/testapp:nginx_latest'
                 sh 'docker push morheus/testapp:nginx_latest'
                 echo '===================== running image of nginx ====================='
                 sh 'docker pull morheus/testapp:nginx_latest'
