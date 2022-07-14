@@ -6,10 +6,10 @@ COPY package.json ./
 RUN npm config rm proxy && npm config rm https-proxy && npm update npm -g
 # copy the local "./" folders to the "/usr/src/app" fodler in the container
 # install packages
-RUN npm install
+RUN npm install --production
 COPY . .
 # add volume
-EXPOSE 4200 4201
+EXPOSE 3000
 # start app
 CMD ["node", "app.js"]
 
