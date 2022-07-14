@@ -9,7 +9,6 @@ pipeline {
     }
     environment {
         VERSION = "${env.GIT_COMMIT}-${env.BUILD_ID}"
-        IMAGE = "${NAME}:${VERSION}"
     }
 
     stages {
@@ -25,14 +24,14 @@ pipeline {
         stage('images for master') {
             steps {
                 echo '===================== building images for master ====================='
-                sh 'docker build -t test_app .'
-                sh "docker tag morheus/test_app:master_${VERSION}"
-                sh "docker push morheus/test_app:master_${VERSION}"
+                sh 'docker build -t testapp .'
+                sh "docker tag morheus/testapp:master_${VERSION}"
+                sh "docker push morheus/testapp:master_${VERSION}"
                 echo '===================== running images for master ====================='
                 sh '$export PORT=4200'
-                sh "docker pull morheus/test_app:master_${VERSION}"
+                sh "docker pull morheus/testapp:master_${VERSION}"
                 sh 'docker container rm -f master_latest || true'
-                sh "docker run -d -p 4200:4200 --name deployment_latest morheus/test_app:master_${VERSION}"
+                sh "docker run -d -p 4200:4200 --name deployment_latest morheus/testapp:master_${VERSION}"
             }
         }
 
@@ -42,14 +41,26 @@ pipeline {
             }
             steps {
                 echo '===================== building images for development ====================='
-                sh 'docker build -t test_app .'
-                sh "docker tag ${IMAGE_REPO}/test_app:deployment_${VERSION}"
-                sh "docker push ${IMAGE_REPO}/test_app:deployment_${VERSION}"
+                sh 'docker build -t testapp .'
+                sh "docker tag morheus/testapp:deployment_${VERSION}"
+                sh "docker push morheus/testapp:deployment_${VERSION}"
                 echo '===================== running images for development ====================='
                 sh '$export PORT=4201'
-                sh "docker pull ${IMAGE_REPO}/test_app:deployment_${VERSION}"
+                sh "docker pull morheus/testapp:deployment_${VERSION}"
                 sh 'docker container rm -f deployment_latest || true'
-                sh "docker run -d -p 4201:4201 --name deployment_latest ${IMAGE_REPO}/test_app:deployment_${VERSION}"
+                sh "docker run -d -p 4201:4201 --name deployment_latest morheus/testapp:deployment_${VERSION}"
+            }
+        }
+        stage('nginx') {
+            steps {
+                echo '===================== building images for nginx ====================='
+                sh 'docker build -t testapp ./nginx'
+                sh 'docker tag morheus/testapp:nginx_latest'
+                sh 'docker push morheus/testapp:nginx_latest'
+                echo '===================== running image of nginx ====================='
+                sh 'docker pull morheus/testapp:nginx_latest'
+                sh 'docker container rm -f nginx_latest || true'
+                sh 'docker run -d -p 80:80 --name nginx_latest morheus/testapp:nginx_latest'
             }
         }
     }
