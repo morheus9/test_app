@@ -42,9 +42,6 @@ pipeline {
         }
 
         stage('images for deployment') {
-            when {
-                branch 'development'
-            }
             steps {
                 echo '===================== building images for development ====================='
                 sh "docker build -t ${NAME} ."
