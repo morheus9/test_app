@@ -8,10 +8,7 @@ pipeline {
         label 'master'
     }
     environment {
-        NAME = 'test_app'
-        VERSION = "${env.GIT_COMMIT}-${env.BUILD_ID}"
-        IMAGE = "${NAME}:${VERSION}"
-        IMAGE_REPO = 'morheus'
+        VERSION = "${env.GIT_COMMIT}_${env.BUILD_ID}"
     }
 
     stages {
@@ -25,33 +22,32 @@ pipeline {
         }
 
         stage('images for master') {
-            when {
-                branch 'master'
-            }
             steps {
                 echo '===================== building images for master ====================='
-                sh "docker build -t ${NAME} ."
-                sh "docker tag ${IMAGE_REPO}/${NAME}:master_${VERSION}"
-                sh "docker push ${IMAGE_REPO}/${NAME}:master_${VERSION}"
+                sh "docker build -t morheus/testapp:master_${VERSION} ."
+                sh "docker push morheus/testapp:master_${VERSION}"
                 echo '===================== running images for master ====================='
-                sh '$export PORT=4200'
-                sh "docker pull ${IMAGE_REPO}/${NAME}:master_${VERSION}"
+                sh 'export PORT=4200'
+                sh "docker pull morheus/testapp:master_${VERSION}"
                 sh 'docker container rm -f master_latest || true'
-                sh "docker run -d -p 4200:4200 --name deployment_latest ${IMAGE_REPO}/${NAME}:master_${VERSION}"
+                sh "docker run -d -p 4200:4200 --name master_latest morheus/testapp:master_${VERSION}"
             }
         }
 
         stage('images for deployment') {
+            when {
+                branch 'development'
+            }
             steps {
                 echo '===================== building images for development ====================='
-                sh "docker build -t ${NAME} ."
-                sh "docker tag ${IMAGE_REPO}/${NAME}:deployment_${VERSION}"
-                sh "docker push ${IMAGE_REPO}/${NAME}:deployment_${VERSION}"
+                sh 'docker build -t morheus .'
+                sh "docker tag morheus:latest morheus/testapp:deployment_${VERSION}"
+                sh "docker push morheus/testapp:deployment_${VERSION}"
                 echo '===================== running images for development ====================='
-                sh '$export PORT=4201'
-                sh "docker pull ${IMAGE_REPO}/${NAME}:deployment_${VERSION}"
+                sh 'export PORT=4201'
+                sh "docker pull morheus/testapp:deployment_${VERSION}"
                 sh 'docker container rm -f deployment_latest || true'
-                sh "docker run -d -p 4201:4201 --name deployment_latest ${IMAGE_REPO}/${NAME}:deployment_${VERSION}"
+                sh "docker run -d -p 4201:4201 --name deployment_latest morheus/testapp:deployment_${VERSION}"
             }
         }
     }
