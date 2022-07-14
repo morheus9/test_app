@@ -8,7 +8,6 @@ RUN npm config rm proxy && npm config rm https-proxy && npm update npm -g
 # install packages
 RUN npm install
 COPY . .
-VOLUME . /usr/src/app
 # add volume
 EXPOSE 4200 4201
 # start app
