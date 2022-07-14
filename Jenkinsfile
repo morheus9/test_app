@@ -8,7 +8,7 @@ pipeline {
         label 'master'
     }
     environment {
-        VERSION = "${env.GIT_COMMIT}_${env.BUILD_ID}"
+        VERSION = "${env.BUILD_ID}"
     }
 
     stages {
