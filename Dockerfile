@@ -1,10 +1,6 @@
-FROM node:17.3-alpine3.14
+FROM node:current-alpine3.15
 # setup workdir
 WORKDIR /usr/src/app
-
-# copy the local package *.json files to the /app in the container
-# COPY package.json ./
-
 # fix for npm
 RUN npm config rm proxy && npm config rm https-proxy && npm update npm -g
 # copy the local "./" folders to the "/usr/src/app" fodler in the container
@@ -16,3 +12,8 @@ VOLUME . /usr/src/app
 EXPOSE 4200 4201
 # start app
 CMD ["npm", "start"]
+
+
+
+# copy the local package *.json files to the /app in the container
+# COPY package.json ./
