@@ -22,9 +22,7 @@ pipeline {
         }
 
         stage('images for master') {
-            when {
-                branch 'master'
-            }
+            when { branch 'master' }
             steps {
                 echo '===================== building images for master ====================='
                 sh "docker build -t morheus/testapp:master_${VERSION} ."
@@ -37,9 +35,7 @@ pipeline {
         }
 
         stage('images for development') {
-            when {
-                branch 'development'
-            }
+            when { branch 'development' }
             steps {
                 echo '===================== building images for development ====================='
                 sh "docker build -t morheus/testapp:deployment_${VERSION} ."
