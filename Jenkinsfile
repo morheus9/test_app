@@ -21,7 +21,7 @@ pipeline {
         }
 
         stage('images for master') {
-            when { branch 'master' }
+            if { CURRENT_BRANCH == 'master' }
             steps {
                 echo '===================== building images for master ====================='
                 sh "docker build -t morheus/testapp:master_${VERSION} ."
