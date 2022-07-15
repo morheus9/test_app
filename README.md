@@ -10,8 +10,8 @@
   npm install
   npm start
 
-  Go to http://nodeserver1
+  Go to http://nodeserver1.net
   or
-  Go to http://nodeserver2
+  Go to http://nodeserver2.net
 
-```  rr
+```  
