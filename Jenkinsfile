@@ -1,6 +1,5 @@
 #!groovy
 /* groovylint-disable DuplicateStringLiteral, LineLength */
-//  Check ub1 properties
 properties([disableConcurrentBuilds()])
 
 pipeline {
