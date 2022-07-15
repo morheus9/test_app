@@ -52,13 +52,13 @@ pipeline {
         stage('nginx') {
             steps {
                 echo '===================== building images for nginx ====================='
-                sh "docker build -t ${NAME} ./nginx"
-                sh "docker tag ${IMAGE_REPO}/${NAME}:nginx_latest"
-                sh "docker push ${IMAGE_REPO}/${NAME}:nginx_latest"
+                sh 'docker build -t morheus ./nginx'
+                sh 'docker tag morheus/testapp:nginx_latest'
+                sh 'docker push morheus/testapp:nginx_latest'
                 echo '===================== running image of nginx ====================='
-                sh "docker pull ${IMAGE_REPO}/${NAME}:nginx_latest"
+                sh 'docker pull morheus/testapp:nginx_latest'
                 sh 'docker container rm -f nginx_latest || true'
-                sh "docker run -d -p 80:80 --name nginx_latest ${IMAGE_REPO}/${NAME}:nginx_latest"
+                sh 'docker run -d -p 80:80 --name nginx_latest morheus/testapp:nginx_latest'
             }
         }
     }
