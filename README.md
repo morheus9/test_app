@@ -10,8 +10,5 @@
   npm install
   npm start
 
-  Go to http://nodeserver1.net
-  or
-  Go to http://nodeserver2.net
-
+  Go to http://127.0.0.0:80
 ```  
