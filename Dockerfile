@@ -11,7 +11,7 @@ COPY . .
 # add volume
 EXPOSE 4200
 # start app
-CMD ["PORT=4200", "node", "app.js"]
+CMD ["node", "app.js"]
 
 # copy the local package *.json files to the /app in the container
 #
