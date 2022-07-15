@@ -32,7 +32,7 @@ pipeline {
                 echo '===================== running images for master ====================='
                 sh "docker pull morheus/testapp:master_${VERSION}"
                 sh 'docker container rm -f master_latest || true'
-                sh "docker run -d -p 4200:4200 -e PORT=4200 -v const_directory:/usr/src/app --network=my_net --name master_latest morheus/testapp:master_${VERSION}"
+                sh "docker run -d -p 4200:4200 -e PORT=4200 -v const_directory:/usr/src/app --name master_latest morheus/testapp:master_${VERSION}"
             }
         }
 
@@ -47,7 +47,7 @@ pipeline {
                 echo '===================== running images for development ====================='
                 sh "docker pull morheus/testapp:deployment_${VERSION}"
                 sh 'docker container rm -f deployment_latest || true'
-                sh "docker run -d -p 4201:4201 -e PORT=4201 -v const_directory:/usr/src/app --network=my_net --name deployment_latest morheus/testapp:deployment_${VERSION}"
+                sh "docker run -d -p 4201:4201 -e PORT=4201 -v const_directory:/usr/src/app --name deployment_latest morheus/testapp:deployment_${VERSION}"
             }
         }
         stage('nginx') {
@@ -58,7 +58,8 @@ pipeline {
                 echo '===================== running image of nginx ====================='
                 sh 'docker pull morheus/testapp:nginx_latest'
                 sh 'docker container rm -f nginx_latest || true'
-                sh 'docker run -d -p 80:80 --name nginx_latest --network=my_net morheus/testapp:nginx_latest'
+                sh 'docker run -d -p 80:80 --name nginx_latest morheus/testapp:nginx_latest'
+                sh 'docker network create my_net | echo "this network already exist"'
             }
         }
     }
