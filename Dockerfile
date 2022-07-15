@@ -1,4 +1,4 @@
-FROM node:17.3-alpine3.14
+FROM node:alpine3.15
 # setup workdir
 WORKDIR /usr/src/app
 # fix for npm
