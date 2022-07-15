@@ -53,6 +53,7 @@ pipeline {
                 sh 'docker pull morheus/testapp:nginx_latest'
                 sh 'docker container rm -f nginx_latest || true'
                 sh 'docker run -d -p 80:80 --name nginx_latest morheus/testapp:nginx_latest'
+                sh 'docker network create bridge_network_for_test_app'
             }
         }
     }
