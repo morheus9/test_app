@@ -52,8 +52,7 @@ pipeline {
         stage('nginx') {
             steps {
                 echo '===================== building images for nginx ====================='
-                sh 'docker build -t morheus ./nginx'
-                sh 'docker tag morheus/testapp:nginx_latest'
+                sh 'docker build -t morheus/testapp:nginx_latest ./nginx'
                 sh 'docker push morheus/testapp:nginx_latest'
                 echo '===================== running image of nginx ====================='
                 sh 'docker pull morheus/testapp:nginx_latest'
