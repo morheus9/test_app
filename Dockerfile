@@ -9,7 +9,7 @@ RUN npm config rm proxy && npm config rm https-proxy && npm update npm -g
 RUN npm install --production
 COPY . .
 # add volume
-EXPOSE 4200
+EXPOSE 4200 4201
 # start app
 CMD ["node", "app.js"]
 
