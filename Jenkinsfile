@@ -36,7 +36,7 @@ pipeline {
             }
         }
 
-        stage('images for deployment') {
+        stage('images for development') {
             when {
                 branch 'development'
             }
