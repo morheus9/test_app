@@ -22,6 +22,9 @@ pipeline {
         }
 
         stage('images for master') {
+            when {
+                branch 'master'
+            }
             steps {
                 echo '===================== building images for master ====================='
                 sh "docker build -t morheus/testapp:master_${VERSION} ."
@@ -34,6 +37,9 @@ pipeline {
         }
 
         stage('images for deployment') {
+            when {
+                branch 'development'
+            }
             steps {
                 echo '===================== building images for development ====================='
                 sh "docker build -t morheus/testapp:deployment_${VERSION} ."
@@ -53,6 +59,7 @@ pipeline {
                 sh 'docker pull morheus/testapp:nginx_latest'
                 sh 'docker container rm -f nginx_latest || true'
                 sh 'docker run -d -p 80:80 --name nginx_latest morheus/testapp:nginx_latest'
+                sh 'docker network create my_net | echo "this network already exist"'
             }
         }
     }
