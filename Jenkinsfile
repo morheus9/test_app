@@ -1,6 +1,5 @@
 #!groovy
 /* groovylint-disable DuplicateStringLiteral, LineLength */
-//  Check ub1 properties
 properties([disableConcurrentBuilds()])
 
 pipeline {
@@ -22,7 +21,11 @@ pipeline {
         }
 
         stage('images for master') {
-            when { branch 'master' }
+            when {
+                expression {
+                    return env.GIT_BRANCH == 'origin/master'
+                }
+            }
             steps {
                 echo '===================== building images for master ====================='
                 sh "docker build -t morheus/testapp:master_${VERSION} ."
@@ -35,7 +38,11 @@ pipeline {
         }
 
         stage('images for development') {
-            when { branch 'development' }
+            when {
+                expression {
+                    return env.GIT_BRANCH == 'origin/development'
+                }
+            }
             steps {
                 echo '===================== building images for development ====================='
                 sh "docker build -t morheus/testapp:deployment_${VERSION} ."
