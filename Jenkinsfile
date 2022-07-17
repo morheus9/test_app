@@ -38,7 +38,11 @@ pipeline {
         }
 
         stage('images for development') {
-            when { branch 'development' }
+            when {
+                expression {
+                    return env.GIT_BRANCH == 'origin/development'
+                }
+            }
             steps {
                 echo '===================== building images for development ====================='
                 sh "docker build -t morheus/testapp:deployment_${VERSION} ."
