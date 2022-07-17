@@ -5,11 +5,6 @@
 
 # Steps :
 ```
-  git clone https://github.com/morheus9/test_app
-  cd test_app
-  npm install
-  npm start
-
+  Commit
   Go to http://127.0.0.0:80
 ```
-1
