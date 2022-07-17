@@ -16,6 +16,7 @@ pipeline {
                 echo '===================== docker login ====================='
                 withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                     sh 'docker login -u $USERNAME -p $PASSWORD'
+                    echo "BRANCH_NAME is ${env.BRANCH_NAME}"
                 }
             }
         }
