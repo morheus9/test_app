@@ -16,13 +16,12 @@ pipeline {
                 echo '===================== docker login ====================='
                 withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                     sh 'docker login -u $USERNAME -p $PASSWORD'
-                    sh 'echo "${BRANCH_NAME}"'
                 }
             }
         }
 
         stage('images for master') {
-            when { branch 'master' }
+            when { branch 'origin/master' }
             steps {
                 echo '===================== building images for master ====================='
                 sh "docker build -t morheus/testapp:master_${VERSION} ."
@@ -35,7 +34,7 @@ pipeline {
         }
 
         stage('images for development') {
-            when { branch 'development' }
+            when { branch 'origin/development' }
             steps {
                 echo '===================== building images for development ====================='
                 sh "docker build -t morheus/testapp:deployment_${VERSION} ."
